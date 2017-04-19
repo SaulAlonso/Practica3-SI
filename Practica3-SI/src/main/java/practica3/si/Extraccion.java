@@ -36,10 +36,7 @@ public class Extraccion {
 			FileInputStream fstream = new FileInputStream("src/main/resources/static/mas-accesos-servidor-nitflex.log");
 			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 			while ((strLine = br.readLine()) != null) {
-				if (strLine.contains("/nitflex")) {
-					
-					String[] textoSplit = strLine.split(" ");
-					
+				if (strLine.contains("/nitflex")) {					
 					
 				}
 
