@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TipoRecurso {
+public class Tipo_Recurso {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
@@ -16,13 +16,13 @@ public class TipoRecurso {
 	private String tipo;
 	
 	
-	public TipoRecurso(int idr, String tipo) {
+	public Tipo_Recurso(int idr, String tipo) {
 		this.idr = idr;
 		this.tipo = tipo;
 	}
 
 
-	public TipoRecurso() {
+	public Tipo_Recurso() {
 	}
 
 

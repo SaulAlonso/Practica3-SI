@@ -7,6 +7,6 @@ public interface AccesosRepository extends JpaRepository<Accesos, Long> {
 	
 	List<Accesos> findByIda(int ida);
 	List<Accesos> findByTiempo(Tiempo tiempo);
-	List<Accesos> findByTiposRecurso(TipoRecurso tipo_recurso);
+	//List<Accesos> findByTiposRecurso(TipoRecurso tiporecurso);      *No consigo solucionar el error*
 
 }
