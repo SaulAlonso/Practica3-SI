@@ -3,41 +3,36 @@ package practica3.si;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class Extraccion {
+@Component
+public class DataBaseLoader {
 
 	@Autowired
 	private AccesosRepository accesosrepository;
 
 	@Autowired
-	private TipoRecursoRepository tipo_recursorepository;
+	private Tipo_RecursoRepository tipo_recursorepository;
 
 	@Autowired
 	private TiempoRepository tiemporepository;
 
-	@RequestMapping("/")
-	@ResponseBody
-	public List<String> extraccion() {
-		Accesos acceso;
-		Tiempo tiempo;
-		Tipo_Recurso tipo_recurso;
+	//@RequestMapping("/")
+	//@ResponseBody
+	@PostConstruct
+	public void initDatabase() {
 		String strLine = "";
-		List<String> texto = new ArrayList<>();
-		int i = 0;
 		try {
 			FileInputStream fstream = new FileInputStream("src/main/resources/static/mas-accesos-servidor-nitflex.log");
 			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 			while ((strLine = br.readLine()) != null) {
 				if (strLine.contains("/nitflex")) {
-					
+					System.out.println(strLine);
 					//Una vez extraida la linea actual del fichero log (strLine) utilizamos el metodo split para dividir la linea
 					//en diferentes String usando el simbolo "-" para dividirlos
 					String[] textoSplit = strLine.split("-");
@@ -55,16 +50,16 @@ public class Extraccion {
 					
 					//Desde el eje inicioHora extraemos tanto la fecha como la hora
 					String fecha = fechaHora.substring(0,inicioHora);
-					String hora = fechaHora.substring(inicioHora+1,fechaHora.length());
+					String horaString = fechaHora.substring(inicioHora+1,fechaHora.length());
 					
 					//De la variable fecha procedemos a extraer el dia, el mes y el año
 					String[] fechaSplit = fecha.split("/");
-					String dia = fechaSplit[0];
-					String mes = fechaSplit[1];
-					String anio = fechaSplit[2];
+					String diaString = fechaSplit[0];
+					String mesString = fechaSplit[1];
+					String anioString = fechaSplit[2];
 					
 					//De la hora eliminamos los caracteres ":" para obtener un String limpio para convertirlo posteriormente en un int
-					hora = hora.replace(":", "");
+					horaString = horaString.replace(":", "");
 					
 					//Ahora procedemos con el recurso, siendo el inicio el simbolo " (comillas dobles) y el final el tamaño del String
 					//en la segunda posicion del array que anteriormente creamos al hacer split de la linea extraida del log
@@ -74,10 +69,21 @@ public class Extraccion {
 					int finExtension = textoRecurso.lastIndexOf(".");
 					String recurso = textoRecurso.substring(finExtension+1,finRecurso);
 					
-					//Creamos los objetos
-					//AQUI HAY UN PROBLEMA POR QUE PARA CREAR LOS OBJETOS POR QUE PARA
-					//CREAR LOS OBJETOS EL ENUNCIADO PONE UN ID A CADA UNO DE TIPO INT PERO
-					// LA BBDD USA ID TIPO LONG AUTOGENERADA Y NO SE QUE COJONES HACER AQUI
+					//Cambiamos los tipos de datos de tiempo
+					int dia = Integer.parseInt(diaString);
+					int mes = Integer.parseInt(mesString);
+					int anio = Integer.parseInt(anioString);
+					int hora = Integer.parseInt(horaString);
+					
+					//Creamos los diferentes objetos extraidos y los introducimos en la BBDD
+					Tiempo tiempo = new Tiempo(dia, mes, anio, hora);
+					tiemporepository.save(tiempo);
+					
+					Tipo_Recurso tipo_recurso = new Tipo_Recurso(recurso);
+					tipo_recursorepository.save(tipo_recurso);
+					
+					Accesos accesos = new Accesos(tipo_recurso, tiempo);
+					accesosrepository.save(accesos);
 				}
 
 			}
@@ -85,8 +91,6 @@ public class Extraccion {
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-
-		return texto;
 
 	}
 }

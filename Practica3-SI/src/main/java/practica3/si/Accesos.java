@@ -6,19 +6,16 @@ import javax.persistence.*;
 public class Accesos {
 	
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
-	private Long id;
+	@GeneratedValue (strategy = GenerationType.AUTO)	
+	private Integer ida;
 	
-	private int ida;
-	
-	@OneToOne (cascade=CascadeType.ALL)
+	@OneToOne 
 	private Tipo_Recurso tipo_recurso;
 	
-	@OneToOne (cascade=CascadeType.ALL)
+	@OneToOne 
 	private Tiempo tiempo;
 
-	public Accesos(int ida, Tipo_Recurso tipo_recurso, Tiempo tiempo) {
-		this.ida = ida;
+	public Accesos(Tipo_Recurso tipo_recurso, Tiempo tiempo) {
 		this.tipo_recurso = tipo_recurso;
 		this.tiempo = tiempo;
 	}
@@ -26,7 +23,7 @@ public class Accesos {
 	public Accesos() {
 	}
 
-	public int getIda() {
+	public Integer getIda() {
 		return ida;
 	}
 

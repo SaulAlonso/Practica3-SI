@@ -1,9 +1,9 @@
 package practica3.si;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface TiempoRepository extends JpaRepository<Tiempo, Long> {
+public interface TiempoRepository extends CrudRepository<Tiempo, Integer> {
 	
 	List<Tiempo> findByDia(int dia);
 	List<Tiempo> findByAnio(int anio);

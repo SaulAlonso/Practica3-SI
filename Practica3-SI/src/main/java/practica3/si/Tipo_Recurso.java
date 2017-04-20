@@ -1,5 +1,6 @@
 package practica3.si;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,14 +11,13 @@ public class Tipo_Recurso {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private Long id;
-
-	private int idr;
+	private Integer idr;
+	
+	@Column(length = 20)
 	private String tipo;
 	
 	
-	public Tipo_Recurso(int idr, String tipo) {
-		this.idr = idr;
+	public Tipo_Recurso(String tipo) {
 		this.tipo = tipo;
 	}
 
@@ -26,7 +26,7 @@ public class Tipo_Recurso {
 	}
 
 
-	public int getIdr() {
+	public Integer getIdr() {
 		return idr;
 	}
 

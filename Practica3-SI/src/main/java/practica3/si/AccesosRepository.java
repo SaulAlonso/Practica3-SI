@@ -1,11 +1,11 @@
 package practica3.si;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface AccesosRepository extends JpaRepository<Accesos, Long> {
+public interface AccesosRepository extends CrudRepository<Accesos, Integer> {
 	
-	List<Accesos> findByIda(int ida);
+	List<Accesos> findByIda(Integer ida);
 	List<Accesos> findByTiempo(Tiempo tiempo);
 	//List<Accesos> findByTiposRecurso(TipoRecurso tiporecurso);      *No consigo solucionar el error*
 
