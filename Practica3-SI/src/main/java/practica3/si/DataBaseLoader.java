@@ -39,7 +39,7 @@ public class DataBaseLoader {
 					System.out.println(strLine);
 					//Una vez extraida la linea actual del fichero log (strLine) utilizamos el metodo split para dividir la linea
 					//en diferentes String usando el simbolo "-" para dividirlos
-					textoSplit = strLine.split("\"-\"");
+					textoSplit = strLine.split("HTTP");
 					
 					//Buscamos el simbolo "+" que es el punto donde termina la fecha, siendo el caracter "[" el inicio de la fecha
 					//que al haber hecho split con "-" ya tenemos el valor de "[" que seria 0 o 1 entonces la fecha empieza en la
@@ -74,6 +74,7 @@ public class DataBaseLoader {
 					
 					//Cambiamos los tipos de datos de tiempo
 					int dia = Integer.parseInt(diaString);
+					//Pongo mes = 3 por que son todos del mes de marzo
 					int mes = 3;
 					int anio = Integer.parseInt(anioString);
 					int hora = Integer.parseInt(horaString);
